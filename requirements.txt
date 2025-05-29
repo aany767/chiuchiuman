@@ -8,3 +8,12 @@ json
 logging
 watchdog
 sys
+requests
+bs4
+validators
+mysql.connector
+gspread
+google
+prettytable
+PIL
+io
