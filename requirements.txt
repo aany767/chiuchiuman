@@ -1,0 +1,10 @@
+discord
+os
+asyncio
+datetime
+pytz
+traceback
+json
+logging
+watchdog
+sys
