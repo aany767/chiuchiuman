@@ -1,2 +1,2 @@
 # chiuchiuman
-```AB GAY```
+```AB GAY is GAY```
