@@ -1,0 +1,269 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Cactus+Classical+Serif&display=swap'); */
+
+/* Minimalist background animation: subtle gradient */
+.background {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: -1 !important;
+  /* brighter pastel gradient for visibility */
+  background-image: url('https://media.discordapp.net/attachments/1155488201646030951/1363516551050952875/image0.jpg?ex=6806513e&is=6804ffbe&hm=ad7a315926eee79d9f8f1534aee35d6b4254aef022207f81c8d9e2c4f835c85b&=&format=webp&width=1322&height=1764') !important;
+  background-size: 100% 100% !important;
+  /* animation: gradient 20s ease infinite !important; */
+}
+.background svg {
+  display: none !important;
+}
+
+/* 全局樣式 */
+body {
+  font-family: system-ui, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f5f5f5;
+  color: #333;
+  overflow-x: hidden;
+}
+
+/* 背景動畫 */
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.background svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Header */
+header {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 3rem;
+  color: #f7f7f7 !important; /* 提高優先級 */
+  border-top: #ccc 5px solid !important;
+  border-bottom: #ccc 5px solid !important;
+  /* border-radius: 7px !important; */
+  background-color: #252525 !important;
+  box-shadow: 0 0 10px rgba(203, 203, 202, 0.877) !important;
+  text-align: center;
+  padding: 10px 20px;
+  z-index: 999;
+  width: max-content;
+}
+
+/* 內容容器 */
+#container {
+  position: relative;
+  padding-top: 100px; /* 動態計算 header 高度 */
+  padding-left: 20px;
+  padding-right: 20px;
+  z-index: 1;
+  min-height: 100vh; /* 確保容器至少填滿螢幕高度 */
+}
+
+/* 網格佈局 */
+#container div {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  color: rgb(238, 238, 238);
+}
+
+/* 任務卡片 */
+.task {
+  border: 1px solid #ccc;
+  padding: 15px;
+  border-radius: 8px;
+  background: rgba(39, 39, 39, 1); /* 進一步提高不透明度 */
+  opacity: 0.8;
+  box-shadow: 0 0 3px rgba(203, 203, 202, 0.877);
+  transition: all 0.3s ease;
+}
+
+.task:hover {
+  opacity: 1;
+  transform: scale(1.01);
+  box-shadow: 0 0 20px rgba(67, 80, 18, 0.2);
+}
+
+.task .tt {
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 2rem;
+}
+
+.task p:not(:first-child) {
+  font-size: 1.4rem;
+}
+
+.task p:nth-child(2n+2) {
+  padding: 5px;
+  border-radius: 5px;
+  margin: 5px 0;
+}
+
+.done {
+  background: rgba(46, 46, 46, 1);
+  opacity: 0.8;
+}
+
+.not-done {
+  background: rgba(39, 39, 39, 0.95);
+}
+
+/* 按鈕 */
+.table-btn {
+  font-family: "Cactus Classical Serif", serif;
+  margin-top: 10px;
+  padding: 8px 16px;
+  height: 50px;
+  background-color: rgb(81, 81, 81);
+  color: rgb(255, 255, 255);
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.table-btn:hover {
+  background-color: rgb(80, 170, 118);
+}
+
+.table-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Loading 動畫 */
+.loading {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #dcdcdc;
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.btn-text {
+  display: inline;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 載入文字 */
+#container:empty::before {
+  content: 'Loading...';
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 1.5em;
+  color: #ccc;
+}
+/* ---- Minimalist Overrides ---- */
+header {
+  position: sticky !important;
+  top: 0 !important;
+  left: 0 !important;
+  transform: none !important;
+  width: 100% !important;
+  background-color: #fff !important;
+  border-bottom: 1px solid #e0e0e0 !important;
+  color: #333 !important;
+  padding: 1rem 0 !important;
+  font-size: 1.75rem !important;
+  box-shadow: none !important;
+  z-index: 100 !important;
+}
+
+ #container {
+  max-width: 1000px !important;
+  margin: 2rem auto !important;
+  padding: 0 1rem !important;
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
+  gap: 1rem !important;
+}
+
+.task {
+  border: 1px solid #e0e0e0 !important;
+  background-color: #fff !important;
+  color: #333 !important;
+  padding: 1rem !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05) !important;
+  opacity: 1 !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.task:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+}
+/* Uniform vertical spacing for paragraphs inside cards */
+.task p {
+  margin: 0.5rem 0 !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+}
+
+.task .tt {
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  margin-bottom: 0.75rem !important;
+  color: #007BFF !important;
+  display: block !important;
+  padding-bottom: 0.25rem !important;
+  border-bottom: 2px solid #007BFF !important;
+}
+
+.table-btn {
+  background-color: #007BFF !important;
+  color: #fff !important;
+  border-radius: 4px !important;
+  padding: 0.5rem 1rem !important;
+  margin-top: 0.75rem !important;
+  font-size: 0.95rem !important;
+}
+
+.table-btn:hover {
+  background-color: #0056b3 !important;
+}
+
+.loading {
+  display: none !important;
+  width: 16px !important;
+  height: 16px !important;
+  border: 2px solid #eee !important;
+  border-top: 2px solid #333 !important;
+  border-radius: 50% !important;
+  animation: spin 1s linear infinite !important;
+}
+
+#container:empty::before {
+  color: #666 !important;
+}
+
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}

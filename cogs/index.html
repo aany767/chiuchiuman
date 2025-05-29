@@ -1,0 +1,115 @@
+<!-- 此檔案請修改第29行 -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Kitchen</title>
+  <link rel="icon" href="https://images.emojiterra.com/google/android-12l/512px/1f342.png" type="image/x-icon">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>Happy Kitchen</header>
+  <div id="container">Loading...</div>
+ 
+  <script>
+    async function fetchData() {
+      try {
+        const response = await fetch('cart.json?_=' + new Date().getTime());
+        const data = await response.json();
+        renderData(data);
+      } catch (err) {
+        console.error('Error fetching JSON:', err);
+        document.getElementById('container').innerHTML = '<p>Failed to load data.</p>';
+      }
+    }
+
+    async function sendToWebhook(guildId, tableNum, button) {
+      const webhookUrl = '你的 n8n webhook 網址';
+      const payload = { guild_id: guildId, table: tableNum };
+
+      button.disabled = true;
+      const loadingSpan = button.querySelector('.loading');
+      const btnText = button.querySelector('.btn-text');
+      loadingSpan.style.display = 'inline-block';
+      btnText.style.display = 'none';
+
+      try {
+        const response = await fetch(webhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) throw new Error('Webhook request failed');
+
+        console.log(`Webhook sent for guildId: ${guildId}, table: ${tableNum}`);
+
+        const taskDiv = button.closest('.task');
+        if (taskDiv) {
+          taskDiv.style.opacity = '0';
+          taskDiv.style.transform = 'translateY(-20px)';
+          taskDiv.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+          setTimeout(() => { taskDiv.remove(); }, 300);
+        }
+      } catch (err) {
+        console.error('Error sending webhook:', err);
+        button.disabled = false;
+        loadingSpan.style.display = 'none';
+        btnText.style.display = 'inline';
+      }
+    }
+
+    function renderData(data) {
+      const container = document.getElementById('container');
+      container.innerHTML = '';
+
+      for (const userId in data) {
+        const userTasks = data[userId];
+        const userDiv = document.createElement('div');
+
+        for (const taskId in userTasks) {
+          const task = userTasks[taskId];
+
+          const taskDiv = document.createElement('div');
+          taskDiv.className = 'task ' + (task.done ? 'done' : 'not-done');
+
+          const notes = task.notes || '(no notes)';
+          const itemsList = Object.entries(task.items).map(
+            ([key, val]) => `${key} × ${val}`
+          ).join(' <br> ||  ');
+          const status = task.done ? 'done' : 'not done';
+
+          taskDiv.innerHTML = `
+            <p class="tt"><strong>Table ${taskId}</strong></p>
+            <p><strong>Server ID:</strong> ${userId}</p>
+            <p><strong>Notes:</strong> ${notes}</p>
+            <p><strong>Items:</strong><br>|| ${itemsList}</p>
+            <p><strong>Status:</strong> <span>${status}</span></p>
+            <button class="table-btn" data-guild-id="${userId}" data-table-num="${taskId}">
+              <span class="btn-text">完成訂單</span>
+              <span class="loading" style="display: none;"></span>
+            </button>
+          `;
+
+          userDiv.appendChild(taskDiv);
+        }
+
+        container.appendChild(userDiv);
+      }
+
+      document.querySelectorAll('.table-btn').forEach(button => {
+        button.addEventListener('click', () => {
+          const guildId = button.getAttribute('data-guild-id');
+          const tableNum = button.getAttribute('data-table-num');
+          sendToWebhook(guildId, tableNum, button);
+        });
+      });
+    }
+
+    fetchData();
+    setInterval(fetchData, 5000);
+  </script>
+</body>
+</html>
