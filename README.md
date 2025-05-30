@@ -17,7 +17,11 @@
 先架設 n8n，詳細教學在[這裡](https://docs.n8n.io/hosting/)    
 
 建立一個 screen session
-<pre>screen -R [any name]</pre> 
+```
+screen -R [any name]
+```
 進入 `cogs` 目錄，執行
-<pre>python -m http.server [port]</pre>
+```
+python -m http.server [port]
+```
 即可在 `http://localhost:1234` 查看網站！
