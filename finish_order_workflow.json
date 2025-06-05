@@ -1,0 +1,80 @@
+{
+  "name": "Finish Order Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "975aefa5-71db-4d31-af2c-6d5135e09410",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "979e5b03-c181-48ee-af2d-bb058edc43e2",
+      "name": "Webhook",
+      "webhookId": "975aefa5-71db-4d31-af2c-6d5135e09410"
+    },
+    {
+      "parameters": {
+        "command": "=python3 [PATH_TO_DEL_ORDER.PY]  {{ $json.body.guild_id }} {{ $json.body.table }}"
+      },
+      "type": "n8n-nodes-base.ssh",
+      "typeVersion": 1,
+      "position": [
+        280,
+        0
+      ],
+      "id": "0de62470-5ac8-406a-93f5-3edc40b670e5",
+      "name": "SSH1",
+      "alwaysOutputData": true,
+      "notesInFlow": false,
+      "credentials": {
+        "sshPassword": {
+          "id": "rfPv1J1nUUHcqCmd",
+          "name": "river"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "Connect to your server and change the file path to where del_order.py is.\n"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        260,
+        140
+      ],
+      "typeVersion": 1,
+      "id": "359b14af-588f-4cde-af6d-49baaad1f748",
+      "name": "Sticky Note"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "SSH1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "58580f4a-6786-4214-b5fc-adac96045f0e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ec601428fbfe3ba1af23707f6ed9cd491ae279be64c3674f903a1b3eaa59d55c"
+  },
+  "id": "aeBZlQTVQxNulTuH",
+  "tags": []
+}
