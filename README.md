@@ -15,6 +15,8 @@
     - `cart.json`
     - `index.html`
     - `style.css`
+- 倉庫
+    - `cogs/inventory.py`
 
 
 ## 需修改的地方(功能部份需要使用再修改即可)
@@ -31,6 +33,8 @@
     - 提醒
         1. ```cogs/remind.py``` line 12-13
         2. ```cogs/send.py``` line 16
+    - 倉庫
+        1. ```cogs/inventory.py``` line 11-15, 110-114
 
 ## 用網站頁面查看訂單
 先架設 n8n，詳細教學在[這裡](https://docs.n8n.io/hosting/)    
