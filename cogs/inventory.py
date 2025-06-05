@@ -8,11 +8,11 @@ from discord.ext import commands, tasks
 from discord import app_commands, SelectOption
 from typing import List
 from discord.ui import TextInput
-global_original_item_url = 'https://docs.google.com/spreadsheets/d/1DC8bwaAZDroZHHieDv2WIrCcUKbWw0fZUM3h9mauH3g/edit?gid=0#gid=0'
-global_original_log_url = 'https://docs.google.com/spreadsheets/d/1eKTbR07-9N5rnP_D4xZ5N-7iR3-BQZ4IsiGBAQwwqU0/edit?gid=0#gid=0'
-global_font_path = '/home/saygmu/poo/cogs/SARASAMONOCL-REGULAR.TTF'
-global_cred_path = '/home/saygmu/poo/cogs/credentials.json'
-global_sheet_guide_path = '/home/saygmu/poo/cogs/sheetGuide.jpg'
+global_original_item_url = 'ur sheet url'
+global_original_log_url = 'ur sheet url'
+global_font_path = 'ur font path'
+global_cred_path = 'ur credentials file path'
+global_sheet_guide_path = 'image'
 
 # 回傳時間戳
 def get_timestamp():
@@ -109,9 +109,9 @@ def get_connection():
     return mysql.connector.connect(
         host = 'localhost',
         port = '3306',
-        user = 'saygmu',
-        password = '074258',
-        database = 'kitchen'
+        user = 'user',
+        password = 'password',
+        database = 'ur database'
     )   
 # SQL 該伺服器是否 in servers
 def is_server_exist(server_id):
@@ -741,15 +741,7 @@ class Inventrory(commands.Cog):
     # 改變倉庫
     @app_commands.command(name = 'food', description='dfsgjkahkjglhkdjbn')
     async def food(self, ctx:discord.Interaction):
-        embed = discord.Embed(
-            title= f"[倉庫] {ctx.guild.name}",
-            description='a;lsjdkfl;akjsf',
-            color=0x4ebcbe
-        )
         server_id = ctx.guild.id
-        file = show_table(data = select_inventory_item_all(server_id=server_id, ItemOrLog='items'), ctx=ctx, ItemOrLog='items', text='所有品項')    
-        embed.set_image(url='attachment://inventory.png')
-        await ctx.response.send_message(embed=embed, files=[file], view=inventoryListView(ctx))
         
         # 創建倉庫 if not exist
         if not is_table_exist(server_id):
@@ -757,6 +749,17 @@ class Inventrory(commands.Cog):
         # 紀錄伺服器 if not exist
         if not is_server_exist(server_id):
             add_server(server_id, ctx.guild.name)
+        
+        embed = discord.Embed(
+            title= f"[倉庫] {ctx.guild.name}",
+            description='a;lsjdkfl;akjsf',
+            color=0x4ebcbe
+        )
+        file = show_table(data = select_inventory_item_all(server_id=server_id, ItemOrLog='items'), ctx=ctx, ItemOrLog='items', text='所有品項')    
+        embed.set_image(url='attachment://inventory.png')
+        await ctx.response.send_message(embed=embed, files=[file], view=inventoryListView(ctx))
+        
+       
         # 初始化 google sheet
         item_url, log_url = select_server_sheet_url(server_id=server_id)
         sheet_update_item(ctx, url=item_url)
