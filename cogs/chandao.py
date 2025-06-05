@@ -4,7 +4,7 @@ from discord import app_commands
 from datetime import datetime
 from discord import SelectOption
 
-path = '/home/jeanthegod/chiubot/testing_cog/usefulma/chandao_members.json'
+path = 'ur json file of 簽到記錄'
 
 def how_many_days(year, month):
     big_months = [1, 3, 5, 7, 8, 10, 12]
