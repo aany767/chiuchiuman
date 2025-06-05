@@ -10,7 +10,7 @@ from typing import List
 from discord.ui import TextInput
 global_original_item_url = 'ur sheet url'
 global_original_log_url = 'ur sheet url'
-global_font_path = 'ur font path'
+global_font_path = 'FONTS/SARASAMONOCL-REGULAR.TTF' #可換成自己的字體路徑
 global_cred_path = 'ur credentials file path'
 global_sheet_guide_path = 'image'
 
