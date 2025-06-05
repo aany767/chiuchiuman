@@ -1,5 +1,5 @@
 {
-  "name": "Finish Order Workflow",
+  "name": "My workflow 2",
   "nodes": [
     {
       "parameters": {
@@ -13,7 +13,7 @@
         0,
         0
       ],
-      "id": "979e5b03-c181-48ee-af2d-bb058edc43e2",
+      "id": "094b7c24-cd0c-4cc6-ba67-b24942fdc794",
       "name": "Webhook",
       "webhookId": "975aefa5-71db-4d31-af2c-6d5135e09410"
     },
@@ -27,20 +27,14 @@
         280,
         0
       ],
-      "id": "0de62470-5ac8-406a-93f5-3edc40b670e5",
+      "id": "4232b3b6-66bf-41bf-98e5-3dc63e857c7e",
       "name": "SSH1",
       "alwaysOutputData": true,
-      "notesInFlow": false,
-      "credentials": {
-        "sshPassword": {
-          "id": "rfPv1J1nUUHcqCmd",
-          "name": "river"
-        }
-      }
+      "notesInFlow": false
     },
     {
       "parameters": {
-        "content": "Connect to your server and change the file path to where del_order.py is.\n"
+        "content": "連接您的伺服器後將命令中檔案路徑改成 del_order.py 的所在路徑。"
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
@@ -48,8 +42,21 @@
         140
       ],
       "typeVersion": 1,
-      "id": "359b14af-588f-4cde-af6d-49baaad1f748",
+      "id": "7e21fdea-c3f2-42e9-b0af-e94c1500636d",
       "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "測試後可切換 webhook 類型至 Production URL。"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -60,
+        140
+      ],
+      "typeVersion": 1,
+      "id": "b5792044-a922-4c8b-8977-9704e2c15579",
+      "name": "Sticky Note1"
     }
   ],
   "pinData": {},
@@ -70,11 +77,9 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "58580f4a-6786-4214-b5fc-adac96045f0e",
+  "versionId": "",
   "meta": {
-    "templateCredsSetupCompleted": true,
     "instanceId": "ec601428fbfe3ba1af23707f6ed9cd491ae279be64c3674f903a1b3eaa59d55c"
   },
-  "id": "aeBZlQTVQxNulTuH",
   "tags": []
 }
