@@ -1,3 +1,22 @@
+## 檔案內容 (若不會使用可將其刪除)
+- 基本功能
+    - `basics.py`
+- 提醒功能
+    - `cogs/remind.py`
+    - `cogs/send.py`
+    - `remind.json`
+    - `template.json`
+- 點餐、查看訂單功能
+    - `cogs/setrole.py`
+    - `cogs/menuedit.py`
+    - `cogs/order.py`
+    - `r_admin_role.json`
+    - `menu.json`
+    - `cart.json`
+    - `index.html`
+    - `style.css`
+
+
 ## 需修改的地方(功能部份需要使用再修改即可)
 
 - 主程式  
