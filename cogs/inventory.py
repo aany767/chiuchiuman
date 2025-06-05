@@ -10,6 +10,9 @@ from typing import List
 from discord.ui import TextInput
 global_original_item_url = 'https://docs.google.com/spreadsheets/d/1DC8bwaAZDroZHHieDv2WIrCcUKbWw0fZUM3h9mauH3g/edit?gid=0#gid=0'
 global_original_log_url = 'https://docs.google.com/spreadsheets/d/1eKTbR07-9N5rnP_D4xZ5N-7iR3-BQZ4IsiGBAQwwqU0/edit?gid=0#gid=0'
+global_font_path = '/home/saygmu/poo/cogs/SARASAMONOCL-REGULAR.TTF'
+global_cred_path = '/home/saygmu/poo/cogs/credentials.json'
+global_sheet_guide_path = '/home/saygmu/poo/cogs/sheetGuide.jpg'
 
 # 回傳時間戳
 def get_timestamp():
@@ -27,8 +30,7 @@ def show_table(data: list, ctx: discord.Interaction, ItemOrLog: str, text: str):
     table_str = str(table)
 
     # 2. 載入中文字型（等寬，適合表格）
-    font_path = '/home/jeanthegod/chiubot/testing_cog/FONTS/ALGER.TTF'
-    #font_path = '/home/jeanthegod/chiubot/testing_cog/FONTS/SARASAMONOCL-REGULAR.TTF' # 全等距
+    font_path = global_font_path # 全等距
     font_size = 20
     font = ImageFont.truetype(font_path, font_size)
 
@@ -38,18 +40,6 @@ def show_table(data: list, ctx: discord.Interaction, ItemOrLog: str, text: str):
     line_height = font.getbbox("測")[3] + 6
     width = int(max(font.getlength(line) for line in lines)) + padding * 2
     height = line_height * (len(lines) + 1) + padding * 2
-
-    # # 4. 隨機挑一張圖片當背景
-    # bg_folder = "/home/jeanthegod/chiubot/testing_cog/abgay"
-    # bg_files = [f for f in os.listdir(bg_folder) if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
-    # bg_path = os.path.join(bg_folder, random.choice(bg_files))
-    # bg = Image.open(bg_path).convert("RGBA").resize((width, height))
-
-    # # 5. 調整透明度（alpha 值）
-    # alpha = 120  # 0 ~ 255，越小越透明
-    # transparent_layer = Image.new("RGBA", bg.size, (255, 255, 255, 0)) 
-    # bg = Image.blend(transparent_layer, bg, alpha / 255)
-
 
     bg = Image.new(mode='RGBA',size=(width, height), color=(55, 69, 53, 255)) # 背景顏色
     
@@ -67,10 +57,7 @@ def show_table(data: list, ctx: discord.Interaction, ItemOrLog: str, text: str):
     buffer = BytesIO()
     bg.save(buffer, format="PNG")
     buffer.seek(0)
-    file = discord.File(
-        fp=buffer, 
-        filename="inventory.png"
-        )
+    file = discord.File(fp=buffer, filename="inventory.png")
     return file
  
 # Sheet 更新倉庫
@@ -79,7 +66,7 @@ def sheet_update_item(ctx: discord.Interaction, url: str | None):
     
     
     server_id = str(ctx.guild.id)
-    credPath = '/home/jeanthegod/chiubot/mesocolian/googleSheetLearning/credentials.json'
+    credPath = global_cred_path
     scopes = ['https://www.googleapis.com/auth/spreadsheets']
     creds =Credentials.from_service_account_file(credPath, scopes=scopes)
     client = gspread.authorize(creds)
@@ -99,7 +86,7 @@ def sheet_update_log(ctx: discord.Interaction, url: str | None):
     log_url = url if url else global_original_log_url
     
     server_id = str(ctx.guild.id)
-    credPath = '/home/jeanthegod/chiubot/mesocolian/googleSheetLearning/credentials.json'
+    credPath = global_cred_path
     scopes = ['https://www.googleapis.com/auth/spreadsheets']
     creds =Credentials.from_service_account_file(credPath, scopes=scopes)
     client = gspread.authorize(creds)
@@ -122,8 +109,8 @@ def get_connection():
     return mysql.connector.connect(
         host = 'localhost',
         port = '3306',
-        user = 'jean',
-        password = 'iamsingle',
+        user = 'saygmu',
+        password = '074258',
         database = 'kitchen'
     )   
 # SQL 該伺服器是否 in servers
@@ -255,36 +242,17 @@ def search_inventory_item(server_id, name: str | None, category: str | None, uni
     server_id = str(server_id)
     connection = get_connection()
     cursor = connection.cursor()
-
-    sql = f"SELECT * FROM inventory_items_{server_id} WHERE 1=1"
-    params = []
-
-    if name:
-        sql += " AND COALESCE(name, '') LIKE %s"
-        params.append(f"%{name}%")
-    if category:
-        sql += " AND COALESCE(category, '') LIKE %s"
-        params.append(f"%{category}%")
-    if unit:
-        sql += " AND COALESCE(unit, '') LIKE %s"
-        params.append(f"%{unit}%")
-
-    cursor.execute(sql, params)
-    return cursor.fetchall()
-    # server_id = str(server_id)
-    # connection = get_connection()
-    # cursor = connection.cursor()
-    # name = f"'%{name}%'" if name else 'name'
-    # category = f"'%{category}%'" if category else 'category'
-    # unit = f"'%{unit}%'" if unit else 'unit'
-    # cursor.execute(f'''
-    #     select * from inventory_items_{server_id}
-    #     where name like {name} and category like {category} and unit like {unit};
-    # ''')
-    # data = cursor.fetchall()
-    # cursor.close()
-    # data = [list(row[:-1]) + [str(row[-1])] for row in data]
-    # return data 
+    name = f"'%{name}%'" if name else 'name'
+    category = f"'%{category}%'" if category else 'category'
+    unit = f"'%{unit}%'" if unit else 'unit'
+    cursor.execute(f'''
+        select * from inventory_items_{server_id}
+        where name like {name} and category like {category} and unit like {unit};
+    ''')
+    data = cursor.fetchall()
+    cursor.close()
+    data = [list(row[:-1]) + [str(row[-1])] for row in data]
+    return data 
 # SQL 增加倉庫品項
 def add_inventory_item_table(server_id, name: str, category: str | None, unit: str | None, quantity: int | None, threshold: int | None):
     server_id = str(server_id)
@@ -317,11 +285,7 @@ def delete_inventory_item_table(server_id, name: str, item_id: str):
     cursor = connection.cursor()
     name = f"'{name}'" if name else 'name'
     item_id = item_id if item_id != '' else 'item_id'
-    cursor.execute(
-        f"DELETE FROM inventory_items_{server_id}\
-        WHERE name = {name}\
-        and item_id = {item_id};"
-        )
+    cursor.execute(f"DELETE FROM inventory_items_{server_id} WHERE name = {name} and item_id = {item_id};")
     connection.commit()
     cursor.close()
     print(f'[{get_timestamp()}] - inventory delete column - name:{name}  item_id: {item_id}')
@@ -407,18 +371,8 @@ class deleteItemModal(discord.ui.Modal, title = '刪除品項'):
     def __init__(self, embed: discord.Embed):
         super().__init__(timeout = 180)
         self.embed = embed
-        self.name= TextInput(
-            label='名稱', 
-            placeholder='Mia is poo', 
-            max_length=30, 
-            min_length=1, 
-            required=False
-            )
-        self.item_id = TextInput(
-            label='item_id', 
-            placeholder='ex: 1, 4, 5', 
-            max_length=11, 
-            required=False)
+        self.name= TextInput(label='名稱', placeholder='Mia is poo', max_length=30, min_length=1, required=False)
+        self.item_id = TextInput(label='item_id', placeholder='ex: 1, 4, 5', max_length=11, required=False)
         self.add_item(self.name)
         self.add_item(self.item_id)
     
@@ -617,6 +571,7 @@ class updateSheetUrlModal(discord.ui.Modal, title = '更新sheet url (如欲放�
 class MyButton(discord.ui.Button):
     def __init__(self, url: str, label: str):
         super().__init__(label=label, style=discord.ButtonStyle.primary, url=url)
+        print(get_timestamp(), 'url', url)
 
 
 # View 改變倉庫
@@ -630,8 +585,10 @@ class inventoryListView(discord.ui.View):
             description='a;lsjdkfl;akjsf',
             color=0x4ebcbe
         )
-        # url 按鈕
+        # Test
         item_url, log_url = select_server_sheet_url(server_id=self.server_id)
+        default_item_url = global_original_item_url
+        default_log_url = global_original_log_url
 
         if item_url: self.add_item(MyButton(url=item_url, label='倉庫sheet'))
         if log_url: self.add_item(MyButton(url=log_url, label='倉庫紀錄sheet'))
@@ -705,7 +662,7 @@ class inventoryListView(discord.ui.View):
     )
     async def show_sheet_guide(self, interaction: discord.Interaction, button: discord.ui.Button):
         # 檔案與預設資料
-        guide_image_path = '/home/jeanthegod/chiubot/testing_cog/images/sheetGuide.jpg'
+        guide_image_path = global_sheet_guide_path
         file = discord.File(guide_image_path, filename='sheetGuide.jpg')
 
         default_author_email = 'python-sheet-api@python-sheet-basic.iam.gserviceaccount.com'
@@ -790,20 +747,9 @@ class Inventrory(commands.Cog):
             color=0x4ebcbe
         )
         server_id = ctx.guild.id
-        file = show_table(
-            data = select_inventory_item_all(
-                server_id=server_id, 
-                ItemOrLog='items'
-                ), 
-            ctx=ctx, 
-            ItemOrLog='items', 
-            text='所有品項')    
+        file = show_table(data = select_inventory_item_all(server_id=server_id, ItemOrLog='items'), ctx=ctx, ItemOrLog='items', text='所有品項')    
         embed.set_image(url='attachment://inventory.png')
-        await ctx.response.send_message(
-            embed=embed, 
-            files=[file], 
-            view=inventoryListView(ctx)
-            )
+        await ctx.response.send_message(embed=embed, files=[file], view=inventoryListView(ctx))
         
         # 創建倉庫 if not exist
         if not is_table_exist(server_id):
