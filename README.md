@@ -35,6 +35,11 @@
 ## 用網站頁面查看訂單
 先架設 n8n，詳細教學在[這裡](https://docs.n8n.io/hosting/)    
 
+建立一個新的 workflow，匯入 `n8n_workflow/finish_order_workflow.json` ，即出現兩個節點：
+![image](https://github.com/user-attachments/assets/f9081468-cd3b-4b51-b352-efb3974bc037)
+
+
+
 建立一個 screen session
 ```
 screen -R [any name]
