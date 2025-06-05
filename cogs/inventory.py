@@ -12,7 +12,7 @@ global_original_item_url = 'ur sheet url'
 global_original_log_url = 'ur sheet url'
 global_font_path = 'FONTS/SARASAMONOCL-REGULAR.TTF' #可換成自己的字體路徑
 global_cred_path = 'JSON/credentials.json' # 需換上自己的憑證
-global_sheet_guide_path = 'image'
+global_sheet_guide_path = 'IMAGES/sheetGuide.jpg' # 可換成自己的圖片
 
 # 回傳時間戳
 def get_timestamp():
