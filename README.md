@@ -1,6 +1,6 @@
 ## 檔案內容 (若不會使用可將其刪除)
 - 基本功能
-    - `basics.py`
+    - `cogs/basics.py`
 - 提醒功能
     - `cogs/remind.py`
     - `cogs/send.py`
